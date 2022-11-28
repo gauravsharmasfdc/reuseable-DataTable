@@ -1,0 +1,62 @@
+<template>
+    <div class="custom container__c">
+        <div class="slds-p-left--x-small slds-text-heading_small tableHeader">{tableHeader}</div>
+        <template if:true={isDataAvailable}>
+            <div>
+                <lightning-datatable key-field="Id" data={recordsToDisplay} columns={columns}
+                    selected-rows={selectedRows} max-row-selection={maxRowSelection} onsort={handleSort}
+                    sorted-by={sortedBy} default-sort-direction={defaultSortDirection} sorted-direction={sortDirection}
+                    onrowselection={handleRowSelection}>
+                </lightning-datatable>
+            </div>
+
+            <span if:true={isRecordsMore}>
+                <h3 class="slds-p-left_small slds-p-top_small">
+                    {totalRecords} Matching Records Found. Up to
+                    {recordPerPage} results displayed. Use the links below to
+                    show more records
+                </h3>
+            </span>
+
+            <span if:false={isRecordsMore}>
+                <h3 class="slds-p-left_small slds-p-top_small">
+                    {totalRecords} Matching Records Found.
+                </h3>
+            </span>
+
+            <div class="slds-grid slds-grid_align-end slds-grid_vertical-align-center">
+                <div class="slds-col slds-p-horizontal--x-small">
+                    <span>Page {pageNo} of {totalPages}</span>
+                </div>
+                <div class="slds-col slds-grid slds-grid_vertical-align-center">
+                    <div class="slds-col">
+                        <lightning-button variant="base" label="" title="Jump to first page"
+                            icon-name="utility:jump_to_left" class="slds-m-left_xx-small" onclick={handleFirst}
+                            disabled={isPreviousButtonDisabled}></lightning-button>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-button variant="base" label="Previous" title="Previous Page"
+                            icon-name="utility:chevronleft" class="slds-m-left_xx-small" onclick={handlePrevious}
+                            disabled={isPreviousButtonDisabled}></lightning-button>
+                    </div>
+                    <div class="slds-col slds-p-horizontal--x-small">|</div>
+                    <div class="slds-col">
+                        <lightning-button variant="base" label="Next" title="Next Page" icon-name="utility:chevronright"
+                            class="slds-m-left_xx-small" icon-position="right" onclick={handleNext}
+                            disabled={isNextButtonDisabled}></lightning-button>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-button variant="base" label="" title="Jump to last page"
+                            icon-name="utility:jump_to_right" class="slds-m-left_xx-small" onclick={handleLast}
+                            disabled={isNextButtonDisabled}></lightning-button>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template if:false={isDataAvailable}>
+            <br />
+            <b>{label.No_Record_Found_Queue_Management}</b>
+
+        </template>
+    </div>
+</template>
